@@ -17,16 +17,12 @@ import ru.vialkina.WebAnalytics.repository.EventRepository;
 @RequiredArgsConstructor
 public class EventServiceInMemory implements EventService {
 
-
     private final EventRepository eventRepository;
 
 
-
-
     @Override
-    public Event addEvent(Event event) {
-        eventRepository.saveAndFlush(event);
-        return event;
+    public void addEvent(Event event) {
+        
     }
 
 
