@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Event {
+    private
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -18,7 +19,7 @@ public class Event {
     private String created_at;
     private String param;
 
-    public Event(Long id) {
+    public Event() {
     }
 
     public Event(String title, String name, String created_at, String param){

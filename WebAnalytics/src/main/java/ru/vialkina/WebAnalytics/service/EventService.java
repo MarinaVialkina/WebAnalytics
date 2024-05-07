@@ -1,6 +1,5 @@
 package ru.vialkina.WebAnalytics.service;
 
-import org.springframework.cache.annotation.Cacheable;
 import ru.vialkina.WebAnalytics.model.Event;
 
 public interface EventService {
