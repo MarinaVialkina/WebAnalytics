@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 import ru.vialkina.WebAnalytics.model.Event;
 import ru.vialkina.WebAnalytics.repository.EventRepository;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 @Service
@@ -17,7 +16,7 @@ import java.util.List;
 public class EventServiceInMemory implements EventService {
 
     private final EventRepository eventRepository;
-    private List<Object> cache = Collections.synchronizedList( new LinkedList<>());
+    private List<Event> cache = new CopyOnWriteArrayList<Event>();
 
 
     @Override
@@ -29,13 +28,9 @@ public class EventServiceInMemory implements EventService {
     @Scheduled(fixedRate = 60000, initialDelay = 60000)
     @Override
     public void sendCacheToDB() throws InterruptedException{
-        for (int i = 0; i < cache.size(); i++){
-            eventRepository.saveAndFlush((Event) cache.get(i));
-            cache.remove(i);
-        }
-
-
-
-
+        List<Event> cacheForSending = cache;
+        eventRepository.saveAllAndFlush(cacheForSending);
+        cache.clear();
+        cacheForSending.clear();
     }
 }
